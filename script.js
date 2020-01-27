@@ -19,6 +19,10 @@ function Book(title, author, pages, read) {
     }
 }
 
+Book.prototype.toggleRead = function() {
+    this.read = !this.read;
+}
+
 function addBookToLibrary() {
     let title = document.querySelector("input[name='title']");
     let author = document.querySelector("input[name='author']");
@@ -50,12 +54,39 @@ function renderTable() {
         pages.innerHTML = book.pages;
         let read = row.insertCell();
         read.innerHTML = book.readString();
+        let remove = row.insertCell();
+        remove.appendChild(deleteButton(index));
+        let toggle = row.insertCell();
+        toggle.appendChild(readButton(index));
         index++;
     });
     
     table.replaceChild(new_tbody, table.getElementsByTagName('tbody')[0]);
 }
 
+function deleteBook(index) {
+    myLibrary.splice(index, 1);
+    renderTable();
+}
+
+function toggleBook(index) {
+    myLibrary[index].toggleRead();
+    renderTable();
+}
+
+function readButton(index) {
+    let button = document.createElement("button");
+    button.innerHTML = "Toggle";
+    button.setAttribute('onclick', `toggleBook(${index})`);
+    return button;
+}
+
+function deleteButton(index) {
+    let button = document.createElement("button");
+    button.innerHTML = "Delete";
+    button.setAttribute('onclick', `deleteBook(${index})`);
+    return button;
+}
 
 function render() {
     let body = document.querySelector("body");
