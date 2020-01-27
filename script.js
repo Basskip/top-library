@@ -37,6 +37,7 @@ function addBookToLibrary() {
     read.checked = false;
 
     hideForm();
+    saveTable();
     renderTable();
 }
 
@@ -66,11 +67,13 @@ function renderTable() {
 
 function deleteBook(index) {
     myLibrary.splice(index, 1);
+    saveTable();
     renderTable();
 }
 
 function toggleBook(index) {
     myLibrary[index].toggleRead();
+    saveTable();
     renderTable();
 }
 
@@ -105,3 +108,28 @@ function hideForm() {
     document.querySelector("#new-book-form").classList.add("hidden");
 }
 
+function saveTable() {
+    localStorage.libraryTable = JSON.stringify(myLibrary);
+}
+
+function loadTable() {
+    let table = localStorage.getItem('libraryTable');
+    if (table != null) {
+        myLibrary = loadLibrary(JSON.parse(table));
+        renderTable();
+    }
+}
+
+function loadLibrary(jsonLibrary) {
+    let books = [];
+
+    for (let index = 0; index < jsonLibrary.length; index++) {
+        const book = jsonLibrary[index];
+        books.push(new Book(book.title, book.author, book.pages, book.read));
+    }
+    return books;
+}
+
+window.onload = function() {
+    this.loadTable();
+}
