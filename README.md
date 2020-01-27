@@ -1,4 +1,4 @@
-# Building With Responsive Design
+# JavaScript Library App
 
 A project from [The Odin Project's](https://www.theodinproject.com/lessons/library) curriculum, creating a small Library app to learn some JavaScript
 
